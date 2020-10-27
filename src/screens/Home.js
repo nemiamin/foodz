@@ -7,23 +7,30 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
 import SwipeButton from 'rn-swipe-button';
 import { connect } from 'react-redux';
-import { generateOTP } from '../action/auth';
+import { generateOTP, login } from '../action/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({navigation, generateOTP}) => {
     const thumbIcon = () => <Icon name="arrowright" size={50}  />;
-    const [mobile, setMobile] = useState('');
+    const [signInForm, seSignInForm] = useState('');
 
-    const changeInput = (e) => {
-        console.log(e)
-        // const {name, value} = e.target;
-        setMobile(e);
+    const changeInput = (e, name) => {
+        AsyncStorage.setItem('mobile', e)
+        seSignInForm(e);
     }
 
+
+
     const submit = async () => {
+        let mobile = await AsyncStorage.getItem('mobile');
+        console.log(mobile)
         const response = await generateOTP(mobile);
         console.log(response);
+        AsyncStorage.removeItem('mobile')
         if(response.success) {
-            navigation.navigate('Login', {param: {otp: response.data }});
+            
+            navigation.navigate('Login', {otp: response.Data.otp, number:  mobile});
+            seSignInForm('');
         }
     }
 
@@ -42,7 +49,7 @@ const Home = ({navigation, generateOTP}) => {
             
             <View style={styles.bottom}>
                     <View style={styles.inputContainer}>
-                        <TextInput change={changeInput} value={mobile} name="mobile" placeholder="Mobile" />
+                        <TextInput change={changeInput} value={signInForm} name="mobile" placeholder="Mobile" />
                     </View>
                     <View style={styles.buttonContainer}>
                         <View style={{flex:1}}></View>
@@ -54,12 +61,18 @@ const Home = ({navigation, generateOTP}) => {
             }} 
             shouldResetAfterSuccess={true}
             swipeSuccessThreshold={70}
-            onSwipeSuccess={() => {
-                submit()
-              }}
+            onSwipeSuccess={submit}
             />
+
                         </View>
                     </View>
+                    {/* <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button_2} onPress={() => submit()}>
+                            <Text style={{padding:15, marginHorizontal:15, color: 'white', }}>
+                                LOGIN
+                            </Text>
+                        </TouchableOpacity>
+                    </View> */}
             </View>
         </ScrollView>
     )

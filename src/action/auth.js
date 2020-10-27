@@ -167,8 +167,12 @@ export const generateOTP = (mobile) => async dispatch => {
         //     payload: res
         // });
      
-        return {
-            success: true, data: res.data
+        if(res.data.success) {
+            dispatch(toast('success', res.data.message));
+            return res.data
+        } else {
+            dispatch(toast('err', res.data.message));
+            return {success: false}
         }
     } catch (error) {
         // alert(error);

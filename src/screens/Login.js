@@ -8,13 +8,22 @@ import { loginUser } from '../action/auth';
 import { connect } from 'react-redux';
 
 const Login = ({navigation, route, loginUser}) => {
-    useEffect(()=>{
-        console.log(route.params);
-    },[]);
+   
 
     const [loginForm, setLoginForm] = useState({mobile:'', otp:''})
 
+    useEffect(()=>{
+        console.log(route.params);
+        if(route.params.otp) {
+            console.log('otp', route.params.otp)
+            setLoginForm({mobile: route.params.number, otp: JSON.stringify(route.params.otp)})
+        }
+        // if(route.params.number) {
+        //     setLoginForm({...loginForm, mobile: route.params.number})
+        // }
+    },[]);
     const changeInput = (e) => {
+        
         setLoginForm({...loginForm,mobile: e})
     }
 
@@ -23,6 +32,7 @@ const Login = ({navigation, route, loginUser}) => {
     }
 
     const submit = async () => {
+        console.log(loginForm)
         const response = await loginUser(loginForm);
         if(response.success) {
             // success

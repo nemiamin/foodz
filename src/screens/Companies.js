@@ -30,7 +30,7 @@ const Companies =  ({navigation,fetchCompanies}) => {
                     </Text>
 
 {companies.map((company, index) =>
-    <TouchableOpacity style={styles.list} onPress={() => navigation.navigate('Vendors')}>
+    <TouchableOpacity key={index} style={styles.list} onPress={() => navigation.navigate('Vendors')}>
     <Text style={styles.comapnies}>
     {index+1}) {company}
     </Text>
