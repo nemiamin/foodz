@@ -6,6 +6,7 @@ import TextInput from '../components/Input';
 import { ScrollView } from 'react-native-gesture-handler';
 import { loginUser } from '../action/auth';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation, route, loginUser}) => {
    
@@ -16,11 +17,9 @@ const Login = ({navigation, route, loginUser}) => {
         console.log(route.params);
         if(route.params.otp) {
             console.log('otp', route.params.otp)
-            setLoginForm({mobile: route.params.number, otp: JSON.stringify(route.params.otp)})
+            setLoginForm({mobile: route.params.number, otp: route.params.otp})
         }
-        // if(route.params.number) {
-        //     setLoginForm({...loginForm, mobile: route.params.number})
-        // }
+
     },[]);
     const changeInput = (e) => {
         
@@ -36,6 +35,7 @@ const Login = ({navigation, route, loginUser}) => {
         const response = await loginUser(loginForm);
         if(response.success) {
             // success
+            AsyncStorage.setItem('loggedIn', 'true')
             navigation.navigate('Dashboard');
         }
     }

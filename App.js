@@ -11,6 +11,7 @@ const App = () => {
   const [showSplash, setSplash] = useState(true);
   useEffect(() => {
     setTimeout(()=> {
+      
       setSplash(false);
     },3000);
   },[]);

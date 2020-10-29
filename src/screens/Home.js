@@ -14,6 +14,17 @@ const Home = ({navigation, generateOTP}) => {
     const thumbIcon = () => <Icon name="arrowright" size={50}  />;
     const [signInForm, seSignInForm] = useState('');
 
+    useEffect(()=>{
+        checkIsLoggedIn()
+    },[])
+
+    const checkIsLoggedIn = async () => {
+        let isLoggedIn = await AsyncStorage.getItem('loggedIn');
+      if(isLoggedIn) {
+        navigation.navigate('Dashboard')
+      }
+    }
+
     const changeInput = (e, name) => {
         AsyncStorage.setItem('mobile', e)
         seSignInForm(e);
@@ -54,7 +65,11 @@ const Home = ({navigation, generateOTP}) => {
                     <View style={styles.buttonContainer}>
                         <View style={{flex:1}}></View>
                         <View style={{flex:1}}>
-                        <SwipeButton title=""  containerStyles={{backgroundColor:'#C1BCBC',borderTopRightRadius: 0,borderBottomRightRadius: 0}}  railBackgroundColor="#C1BCBC" thumbIconBackgroundColor="#C1BCBC" thumbIconBorderColor="#C1BCBC" thumbIconComponent={thumbIcon} railStyles={{
+                            <TouchableOpacity onPress={()=>submit()} style={{ backgroundColor: 'grey',
+              borderColor: '#C1BCBC',borderTopLeftRadius: 99,borderBottomLeftRadius: 99}}>
+                                <Icon name="arrowright" size={50} style={{marginLeft:10,padding:5}} />
+                            </TouchableOpacity>
+                        {/* <SwipeButton title=""  containerStyles={{backgroundColor:'#C1BCBC',borderTopRightRadius: 0,borderBottomRightRadius: 0}}  railBackgroundColor="#C1BCBC" thumbIconBackgroundColor="#C1BCBC" thumbIconBorderColor="#C1BCBC" thumbIconComponent={thumbIcon} railStyles={{
               backgroundColor: 'grey',
               borderColor: 'grey',
               
@@ -62,7 +77,7 @@ const Home = ({navigation, generateOTP}) => {
             shouldResetAfterSuccess={true}
             swipeSuccessThreshold={70}
             onSwipeSuccess={submit}
-            />
+            /> */}
 
                         </View>
                     </View>

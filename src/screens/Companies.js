@@ -21,6 +21,11 @@ const Companies =  ({navigation,fetchCompanies}) => {
         }
     }
 
+    const redirectToVendors = (company) => {
+        const id = company.split('-');
+        navigation.navigate('Vendors', {id: id[2]});
+    }
+
     return (
         <ScrollView style={styles.mainContainer}>
             <Header navigation={navigation} />
@@ -30,7 +35,7 @@ const Companies =  ({navigation,fetchCompanies}) => {
                     </Text>
 
 {companies.map((company, index) =>
-    <TouchableOpacity key={index} style={styles.list} onPress={() => navigation.navigate('Vendors')}>
+    <TouchableOpacity key={index} style={styles.list} onPress={() => redirectToVendors(company)}>
     <Text style={styles.comapnies}>
     {index+1}) {company}
     </Text>

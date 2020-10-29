@@ -1,17 +1,49 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Header from '../components/Header';
 import TextInput2 from '../components/Input';
+import {cafeteriaRemark} from '../action/auth';
+import { connect } from 'react-redux';
 
-export default ({navigation}) => {
+const Checklist = ({navigation, cafeteriaRemark}) => {
+    const [form,setForm] = useState({hygine: '', qualityoffood: '', cleaness:'', staff_attend:'',stock:'', other:'', remark:''})
+
+    const setHygine = (value) => {
+        setForm({...form, hygine: value});
+    }
+
+    const setQuality = (value) => {
+        setForm({...form, qualityoffood: value});
+    }
+
+    const setClean = (value) => {
+        setForm({...form, cleaness: value});
+    }
+
+    const changeInput = (e, name) => {
+        setForm({...form, [name]: e})
+    }
+
+    const setStock = (value) => {
+        setForm({...form, stock: value});
+    }
+
+    const submit = async () => {
+        const response = await cafeteriaRemark(form);
+        if(response.success) {
+            // success
+            console.log(response)
+            navigation.navigate('Dashboard');
+        }
+    }
     return (
         <ScrollView style={styles.mainContainer}>
             <Header navigation={navigation} />
             <View style={styles.card}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>
-                        LIST OF CAFETERIA
+                        OTHER DETAILS
                     </Text>
                 </View>
                 <View style={styles.listContainer}>
@@ -21,22 +53,28 @@ export default ({navigation}) => {
                         </Text>
                     </View>
 
-                    <View style={styles.green_item}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'good' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setHygine('good')} >
                         <Text style={{padding:10}}>
                             Good
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={styles.item}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'bad' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setHygine('bad')} >
                         <Text style={{padding:10}}>
                             Bad
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.item, borderTopRightRadius:5, borderBottomRightRadius:5}}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'average' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setHygine('average')} >
                         <Text style={{padding:10}}>
                             Average
                         </Text>
+                    </TouchableOpacity>
                     </View>
                 </View>
 
@@ -47,22 +85,28 @@ export default ({navigation}) => {
                         </Text>
                     </View>
 
-                    <View style={styles.green_item}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'good' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setQuality('good')} >
                         <Text style={{padding:10}}>
                             Good
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={styles.item}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'bad' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setQuality('bad')} >
                         <Text style={{padding:10}}>
                             Bad
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.item, borderTopRightRadius:5, borderBottomRightRadius:5}}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'average' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setQuality('average')} >
                         <Text style={{padding:10}}>
                             Average
                         </Text>
+                    </TouchableOpacity>
                     </View>
                 </View>
 
@@ -75,26 +119,32 @@ export default ({navigation}) => {
                         </Text>
                     </View>
 
-                    <View style={styles.item}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'good' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setClean('good')} >
                         <Text style={{padding:10}}>
                             Good
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={styles.item}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'bad' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setClean('bad')} >
                         <Text style={{padding:10}}>
                             Bad
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, borderTopRightRadius:5, borderBottomRightRadius:5}}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'average' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setClean('average')} >
                         <Text style={{padding:10}}>
                             Average
                         </Text>
+                    </TouchableOpacity>
                     </View>
                 </View>
 
-                <TextInput2 name="mobile" bgColor="white" inputColor="black" placeholder="Staff Attendance" />
+                <TextInput2 name="staff_attend" bgColor="white" placeholder="Staff Attendance" inputColor="black" value={form.staff_attend} change={changeInput} />
 
                 <View style={styles.listContainer}>
                     <View style={{flex:1.3,
@@ -107,23 +157,27 @@ export default ({navigation}) => {
                         </Text>
                     </View>
 
-                    <View style={styles.green_item}>
+                    <View style={{...styles.green_item, backgroundColor: form.stock == 'maintained' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setStock('maintained')} >
                         <Text style={{padding:10}}>
                             Maintained
                         </Text>
+                    </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.item, borderTopRightRadius:5, borderBottomRightRadius:5}}>
+                    <View style={{...styles.green_item, backgroundColor: form.stock == 'not maintained' ? '#78E20D' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setStock('not maintained')} >
                         <Text style={{padding:10}}>
-                        Not Maintained
+                            Not Maintained
                         </Text>
+                    </TouchableOpacity>
                     </View>
                 </View>
 
             </View>
 
            <View style={{marginHorizontal:10}}>
-                <TextInput2 name="mobile" bgColor="white" inputColor="black" placeholder="Other" />
+                <TextInput2 name="other" bgColor="white" inputColor="black" placeholder="Other" value={form.other} change={changeInput} />
            </View>
 
            <View style={styles.card_bottom}>
@@ -141,10 +195,14 @@ export default ({navigation}) => {
                    </Text> */}
 
 <View style={{ flex: 1, marginVertical: 0 }}>
-                 <TextInput multiline={true} value={'Its advice that vendor should increase no. of staff which help him in making service prompt.'} numberOfLines={3} placeholder='Reason For Cancellation' style={{ backgroundColor: '#F1EFEF', marginHorizontal: 0, textAlign: 'left',  }} />
+                 <TextInput value={form.remark} name="remark" onChangeText={(e)=>changeInput(e,'remark')} multiline={true} numberOfLines={3} placeholder='Reason For Cancellation' style={{ backgroundColor: '#F1EFEF', marginHorizontal: 0, textAlign: 'left',  }} />
              </View>
                </View>
-            
+               <TouchableOpacity onPress={()=>submit()} style={styles.buttonContainer}>
+                <Text style={styles.button}>
+                    Submit
+                </Text>
+            </TouchableOpacity>
         </ScrollView>
     )
 }
@@ -153,6 +211,15 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex:1,
         backgroundColor:'#FEF7F7'
+    },
+    button: {
+        padding:10,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center',
+        color: 'white',
+        fontWeight:'bold',
+        fontSize:18
     },
     container: {
         flex: 1,
@@ -250,7 +317,7 @@ const styles = StyleSheet.create({
     },
     item: {
         flex:1,
-        backgroundColor:'#DAD7D7',
+        
         borderColor:'white',
         borderWidth:1,
         alignItems:'center',
@@ -258,10 +325,22 @@ const styles = StyleSheet.create({
     },
     green_item: {
         flex:1,
-        backgroundColor:'#78E20D',
+        
         borderColor:'white',
         borderWidth:1,
         alignItems:'center',
         justifyContent:'center'
     }
  });
+
+
+ const mapStateToProps = state => ({
+
+})
+
+
+export default connect(
+    mapStateToProps, {
+        cafeteriaRemark
+    }
+) (Checklist)

@@ -1,13 +1,48 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import { light_white, h, w } from '../assets/commons';
-import Button from '../components/Button';
-import TextInput from '../components/Input';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Header from '../components/Header';
+import {getVendors, storeCafeDensity} from '../action/auth';
+import { connect } from 'react-redux';
+import Input from '../components/Input';
 
-export default ({navigation}) => {
+const Vendors = ({navigation, route, getVendors, storeCafeDensity}) => {
+    const [vendors, setVendors] = useState([])
+    const [density, setDensity] = useState(null);
+
+    useEffect(()=>{
+        console.log(route.params);
+        fetchVendors()
+    },[])
+
+    const changeInput = (e,name) => {
+        setDensity(e);
+    }
+
+    const fetchVendors = async () => {
+        const response = await getVendors({org_id: route.params.id});
+        if(response.success) {
+            // success
+            console.log(response);
+            setVendors(response.data.data);
+            
+        }
+    }
+
+    const submit = async () => {
+        const response = await storeCafeDensity({
+            dm_id: '1',
+            org_id: route.params.id,
+            density_value: density
+        });
+        if(response.success) {
+            // success
+            console.log(response);
+            setDensity(null);
+            navigation.navigate('Checklist',{org_id: route.params.id, dm_id: '1'});
+        }
+    }
     return (
         <ScrollView style={styles.mainContainer}>
             <Header navigation={navigation} />
@@ -15,24 +50,14 @@ export default ({navigation}) => {
                 <Text style={styles.title}>
                     LIST OF VENDORS
                 </Text>
-                <View style={styles.listContainer}>
+                {vendors && vendors.length > 0 && vendors.map((vendor, index) => 
+                <View key={index} style={styles.listContainer}>
                     <Text style={styles.listTitle}>
-                        1) ABC
+                        {index+1}) {vendor}
                     </Text>
-                </View>
+                </View>)}
 
-                <View style={styles.listContainer}>
-                    <Text style={styles.listTitle}>
-                        2) ABC
-                    </Text>
-                </View>
-
-
-                <View style={styles.listContainer}>
-                    <Text style={styles.listTitle}>
-                        3) ABC
-                    </Text>
-                </View>
+                
             </View>
 
 
@@ -46,14 +71,16 @@ export default ({navigation}) => {
                     <Text style={{fontSize:18, marginBottom:10}}>Cafeteria Density</Text>
                 </View>
 
-                <View style={styles.cafeButton}>
-                    <Text style={styles.center}>
+                <View >
+                    {/* <Text style={styles.center}>
                         Value
-                    </Text>
+                    </Text> */}
+
+                    <Input name="density" placeholder="Value" value={density} change={changeInput} />
                 </View>
             </View>
 
-            <TouchableOpacity onPress={()=>navigation.navigate('Cafeteria')} style={styles.buttonContainer}>
+            <TouchableOpacity onPress={()=>submit()} style={styles.buttonContainer}>
                 <Text style={styles.button}>
                     Submit
                 </Text>
@@ -137,3 +164,14 @@ const styles = StyleSheet.create({
         fontSize:18
     }
  });
+
+ const mapStateToProps = state => ({
+
+})
+
+
+export default connect(
+    mapStateToProps, {
+        getVendors, storeCafeDensity
+    }
+) (Vendors)

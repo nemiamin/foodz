@@ -8,7 +8,7 @@ export default ({ icon, value, name, change, placeholder, secure, bgColor, input
     return (
         <View style={{...styles.inputContainer,backgroundColor: bgColor ? bgColor : '#949494'}}>
                      <View style={{ flex: 0.85, paddingLeft: 10 }}>
-                     <TextInput onChangeText={(e) => change(e, name)} value={value} name='name' placeholder={placeholder} secureTextEntry={secure} placeholderTextColor={inputColor ? inputColor : 'white'} style={styles.input} />
+                     <TextInput onChangeText={(e) => change(e, name)} value={value} name='name' placeholder={placeholder} secureTextEntry={secure} placeholderTextColor={inputColor ? inputColor : 'white'} style={{color:inputColor ? inputColor : 'white'}} />
                      </View>
                 
                  </View>
