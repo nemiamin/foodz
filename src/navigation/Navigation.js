@@ -16,9 +16,23 @@ import Vendors from '../screens/Vendors';
 import Cafeteria from '../screens/Cafeteria';
 import Checklist from '../screens/Checklist';
 
-
 const UiStack = createStackNavigator();
-const UiNavigator = ({ navigation }) => (
+const UiNavigator = ({ navigation,isLoggedIn }) => isLoggedIn ? (
+        <UiStack.Navigator headerMode='none'>
+            <UiStack.Screen name='Dashboard' component={Dashboard} />
+        {/* <UiStack.Screen name='Splash' component={Splash} /> */}
+        <UiStack.Screen name='Home' component={Home} />
+        <UiStack.Screen name='Login' component={Login} />
+        <UiStack.Screen name='Register' component={SignUp} />
+        <UiStack.Screen name='ForgotPassword' component={ForgotPassword} />
+        
+        <UiStack.Screen name='Wallet' component={Wallet} />
+        <UiStack.Screen name='Companies' component={Companies} />
+        <UiStack.Screen name='Vendors' component={Vendors} />
+        <UiStack.Screen name='Cafeteria' component={Cafeteria} />
+        <UiStack.Screen name='Checklist' component={Checklist} />
+    </UiStack.Navigator>
+) : (
     <UiStack.Navigator headerMode='none'>
         {/* <UiStack.Screen name='Splash' component={Splash} /> */}
         <UiStack.Screen name='Home' component={Home} />
@@ -31,12 +45,12 @@ const UiNavigator = ({ navigation }) => (
         <UiStack.Screen name='Vendors' component={Vendors} />
         <UiStack.Screen name='Cafeteria' component={Cafeteria} />
         <UiStack.Screen name='Checklist' component={Checklist} />
-    </UiStack.Navigator>
-)
+        </UiStack.Navigator>
+);
 
-const Navigation = () => (
+const Navigation = ({isLoggedIn}) => (
     <NavigationContainer>
-        <UiNavigator />
+        <UiNavigator isLoggedIn={isLoggedIn} />
     </NavigationContainer>
     )
     

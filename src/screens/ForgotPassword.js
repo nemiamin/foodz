@@ -1,10 +1,22 @@
-import React from 'react';
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import React,{useEffect} from 'react';
+import { View, StyleSheet, BackHandler, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { light_white, h, w } from '../assets/commons';
 import TextInput from '../components/Input';
 import Button from '../components/Button';
 
 export default ({navigation}) => {
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
+
     return (
         <ImageBackground style={styles.mainContainer} source={require('../assets/bgimage.jpg')}>
                 <View style={styles.transContainer}>

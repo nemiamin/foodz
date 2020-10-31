@@ -263,3 +263,75 @@ export const cafeteriaRemark = (payload) => async dispatch => {
      }
     }
 }
+
+export const fetchEmployeeAmount = (payload) => async dispatch => {
+    try {
+        console.log('API clled', `http://food.breeur.in/api/wallet_refil.php`)
+        const res = await axios.post('http://food.breeur.in/api/wallet_refil.php', payload);
+    //   console.log(res.data, 'vendors')
+    
+     
+        if(res.data.success) {
+            dispatch(toast('success', res.data.message));
+            return {
+                success: true, data: res.data.data
+            }
+        } else {
+            dispatch(toast('err', res.data.message));
+            return {
+                success: false
+            }
+        }
+    } catch (error) {
+        // alert(error);
+        console.log(error.message);
+     if(error.response) {
+         
+        dispatch(toast('err', error.response.data.message));
+         return {
+             success: false, data: error.response.data.message
+         }
+     }
+     else {
+         
+        dispatch(toast('err', 'Error in login'));
+         return {
+             success: false, data: 'Error in login'
+         }
+     }
+    }
+}
+
+
+export const refillEmployeeAmount = (payload) => async dispatch => {
+    try {
+        console.log('API clled', `http://food.breeur.in/api/wallet_refil_pay.php`)
+        const res = await axios.post('http://food.breeur.in/api/wallet_refil_pay.php', payload);
+    //   console.log(res.data, 'vendors')
+    dispatch(toast('success', res.data.message));
+     
+        return {
+            success: true, data: res.data
+        }
+    } catch (error) {
+        // alert(error);
+        console.log(error.message);
+     if(error.response) {
+         
+        dispatch(toast('err', error.response.data.message));
+         return {
+             success: false, data: error.response.data.message
+         }
+     }
+     else {
+         
+        dispatch(toast('err', 'Error in login'));
+         return {
+             success: false, data: 'Error in login'
+         }
+     }
+    }
+}
+export const showError = (msg) => async dispatch => {
+    dispatch(toast('err', msg));
+}

@@ -1,13 +1,72 @@
-import React from 'react';
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import { light_white, h, w } from '../assets/commons';
-import Button from '../components/Button';
+import React,{useEffect, useState} from 'react';
+import { View, StyleSheet, BackHandler, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import TextInput from '../components/Input';
-import { ScrollView } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import Header from '../components/Header';
+import {fetchEmployeeAmount, showError,refillEmployeeAmount } from '../action/auth';
+import { connect } from 'react-redux';
 
-export default ({navigation}) => {
+const Wallet = ({navigation, fetchEmployeeAmount, showError,refillEmployeeAmount}) => {
+    const [email, setEmail] = useState('');
+    const [amount, setAmount] = useState('');
+    const [userData, setUser] = useState(null);
+    const [refill_amount, setRefillAmount] = useState('');
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
+
+    const changeEmail = (e, name) => {
+        setEmail(e)
+    }
+    const submit = async () => {
+        if(!email || email == '') {
+            showError('Employee ID is required!')
+            return;
+        }
+        const response = await fetchEmployeeAmount({email});
+        if(response.success) {
+            //success
+            console.log(response)
+            setAmount(response.data.amount)
+            setUser(response.data);
+        }
+    }
+
+    const changeInput = (e, name) => {
+        setRefillAmount(e);
+    }
+
+    const submitAmount = async () => {
+        if(!refill_amount || refill_amount == '') {
+            showError('Refill amount is required!');
+            return;
+        }
+        console.log(userData);
+        const response = await refillEmployeeAmount({
+            wallet_id: userData.wallet_id,
+            amount: userData.amount,
+            refill_amount: refill_amount,
+            cust_id: userData.cust_id,
+            dm_id: userData.dm_id,
+        });
+        if(response.success) {
+            // success
+            setUser(null)
+            setAmount('');
+            setEmail('');
+            setRefillAmount('');
+        }
+    }
+
     return (
         <ScrollView style={styles.mainContainer}>
             <Header navigation={navigation} />
@@ -15,16 +74,27 @@ export default ({navigation}) => {
                 <Text style={styles.title}>
                     Wallet Refill
                 </Text>
-                <TextInput name="mobile" bgColor="#E4DDDD" inputColor="black" placeholder="Employee ID" />
-                <TextInput name="mobile" inputColor="black" bgColor="#E4DDDD" placeholder="Current Balance" />
-                <TextInput name="mobile" inputColor="black" bgColor="#E4DDDD" placeholder="Refill Amount" />
+                <TextInput name="email" bgColor="#E4DDDD" inputColor="black" placeholder="Employee ID" value={email} change={changeEmail} />
+                <TouchableHighlight onPress={()=>submit()} style={{backgroundColor:'#4caf50',
+        marginTop:20,
+        marginBottom:20,
+        borderRadius:10,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center'}}>
+                <Text style={styles.button}>
+                   Submit
+                </Text>
+            </TouchableHighlight>
+                <TextInput disabled={true} value={amount} name="mobile" inputColor="black" bgColor="#E4DDDD" placeholder="Current Balance" />
+                <TextInput name="amount" type="numeric" inputColor="black" bgColor="#E4DDDD" placeholder="Refill Amount" value={refill_amount} change={changeInput} />
             </View>
 
-            <View style={styles.buttonContainer}>
+            <TouchableHighlight onPress={()=>submitAmount()} style={styles.buttonContainer}>
                 <Text style={styles.button}>
                     Refill
                 </Text>
-            </View>
+            </TouchableHighlight>
             
         </ScrollView>
     )
@@ -52,7 +122,7 @@ const styles = StyleSheet.create({
         marginBottom:10
     },
     buttonContainer: {
-        backgroundColor:'#78E20D',
+        backgroundColor:'#4caf50',
         margin:20,
         borderRadius:10,
         justifyContent:'center',
@@ -69,3 +139,14 @@ const styles = StyleSheet.create({
         fontSize:18
     }
  });
+
+ const mapStateToProps = state => ({
+
+})
+
+
+export default connect(
+    mapStateToProps, {
+        refillEmployeeAmount, fetchEmployeeAmount, showError
+    }
+) (Wallet)

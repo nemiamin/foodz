@@ -1,13 +1,25 @@
-import React,{useState} from 'react';
-import { View, StyleSheet, Text, TextInput } from 'react-native';
+import React,{useState, useEffect} from 'react';
+import { View, StyleSheet, Text, TextInput, BackHandler } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Header from '../components/Header';
 import TextInput2 from '../components/Input';
-import {cafeteriaRemark} from '../action/auth';
+import {cafeteriaRemark, showError} from '../action/auth';
 import { connect } from 'react-redux';
 
-const Checklist = ({navigation, cafeteriaRemark}) => {
+const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
     const [form,setForm] = useState({hygine: '', qualityoffood: '', cleaness:'', staff_attend:'',stock:'', other:'', remark:''})
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
 
     const setHygine = (value) => {
         setForm({...form, hygine: value});
@@ -30,7 +42,43 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
     }
 
     const submit = async () => {
-        const response = await cafeteriaRemark(form);
+        const { hygine, qualityoffood, cleaness, staff_attend, stock, other, remark } = form;
+
+        if(!hygine || hygine == '') {
+            showError('Please select any option from hygine!');
+            return;
+        }
+
+        if(!qualityoffood || qualityoffood == '') {
+            showError('Please select any option from quality of food!');
+            return;
+        }
+
+        if(!cleaness || cleaness == '') {
+            showError('Please select any option from cleanliness of kitchen!');
+            return;
+        }
+
+        if(!staff_attend || staff_attend == '') {
+            showError('Staff attendance is required!');
+            return;
+        }
+
+        if(!stock || stock == '') {
+            showError('Please select any option from stock!');
+            return;
+        }
+
+        if(!other || other == '') {
+            showError('Other is required!');
+            return;
+        }
+
+        if(!remark || remark == '') {
+            showError('Remark is required!');
+            return;
+        }
+        const response = await cafeteriaRemark({...form, org_id: route.params.org_id, v_id: route.params.v_id, dm_id: route.params.dm_id});
         if(response.success) {
             // success
             console.log(response)
@@ -53,7 +101,7 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                         </Text>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'good' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'good' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setHygine('good')} >
                         <Text style={{padding:10}}>
                             Good
@@ -61,7 +109,15 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'bad' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'average' ? '#4caf50' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setHygine('average')} >
+                        <Text style={{padding:10}}>
+                            Average
+                        </Text>
+                    </TouchableOpacity>
+                    </View>
+
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'bad' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setHygine('bad')} >
                         <Text style={{padding:10}}>
                             Bad
@@ -69,13 +125,7 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'average' ? '#78E20D' : '#DAD7D7',}}>
-                    <TouchableOpacity onPress={()=>setHygine('average')} >
-                        <Text style={{padding:10}}>
-                            Average
-                        </Text>
-                    </TouchableOpacity>
-                    </View>
+                    
                 </View>
 
                 <View style={styles.listContainer}>
@@ -85,7 +135,7 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                         </Text>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'good' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'good' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setQuality('good')} >
                         <Text style={{padding:10}}>
                             Good
@@ -93,7 +143,15 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'bad' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'average' ? '#4caf50' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setQuality('average')} >
+                        <Text style={{padding:10}}>
+                            Average
+                        </Text>
+                    </TouchableOpacity>
+                    </View>
+
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'bad' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setQuality('bad')} >
                         <Text style={{padding:10}}>
                             Bad
@@ -101,13 +159,7 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'average' ? '#78E20D' : '#DAD7D7',}}>
-                    <TouchableOpacity onPress={()=>setQuality('average')} >
-                        <Text style={{padding:10}}>
-                            Average
-                        </Text>
-                    </TouchableOpacity>
-                    </View>
+                   
                 </View>
 
 
@@ -119,15 +171,22 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                         </Text>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'good' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'good' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setClean('good')} >
                         <Text style={{padding:10}}>
                             Good
                         </Text>
                     </TouchableOpacity>
                     </View>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'average' ? '#4caf50' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setClean('average')} >
+                        <Text style={{padding:10}}>
+                            Average
+                        </Text>
+                    </TouchableOpacity>
+                    </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'bad' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'bad' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setClean('bad')} >
                         <Text style={{padding:10}}>
                             Bad
@@ -135,16 +194,10 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'average' ? '#78E20D' : '#DAD7D7',}}>
-                    <TouchableOpacity onPress={()=>setClean('average')} >
-                        <Text style={{padding:10}}>
-                            Average
-                        </Text>
-                    </TouchableOpacity>
-                    </View>
+                    
                 </View>
 
-                <TextInput2 name="staff_attend" bgColor="white" placeholder="Staff Attendance" inputColor="black" value={form.staff_attend} change={changeInput} />
+                <TextInput2 type="numeric" name="staff_attend" bgColor="white" placeholder="Staff Attendance" inputColor="black" value={form.staff_attend} change={changeInput} />
 
                 <View style={styles.listContainer}>
                     <View style={{flex:1.3,
@@ -157,7 +210,7 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                         </Text>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.stock == 'maintained' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.stock == 'maintained' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setStock('maintained')} >
                         <Text style={{padding:10}}>
                             Maintained
@@ -165,7 +218,7 @@ const Checklist = ({navigation, cafeteriaRemark}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.stock == 'not maintained' ? '#78E20D' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.stock == 'not maintained' ? '#4caf50' : '#DAD7D7',}}>
                     <TouchableOpacity onPress={()=>setStock('not maintained')} >
                         <Text style={{padding:10}}>
                             Not Maintained
@@ -292,7 +345,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     buttonContainer: {
-        backgroundColor:'#78E20D',
+        backgroundColor:'#4caf50',
         margin:20,
         borderRadius:10,
         justifyContent:'center',
@@ -341,6 +394,6 @@ const styles = StyleSheet.create({
 
 export default connect(
     mapStateToProps, {
-        cafeteriaRemark
+        cafeteriaRemark, showError
     }
 ) (Checklist)

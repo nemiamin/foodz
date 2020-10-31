@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, StyleSheet, BackHandler, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { View, StyleSheet, BackHandler, Text, TouchableOpacity, ImageBackground, Image,Modal,TouchableHighlight } from 'react-native';
 import { light_white, h, w } from '../assets/commons';
 import Button from '../components/Button';
 import TextInput from '../components/Input';
@@ -7,40 +7,57 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
 import SwipeButton from 'rn-swipe-button';
 import { connect } from 'react-redux';
-import { generateOTP, login } from '../action/auth';
+import { generateOTP, showError } from '../action/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home = ({navigation, generateOTP}) => {
+const Home = ({navigation, generateOTP, showError}) => {
+    const [modalVisible, setModalVisible] = useState(false);
     const thumbIcon = () => <Icon name="arrowright" size={50}  />;
     const [signInForm, seSignInForm] = useState('');
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
 
-    useEffect(()=>{
-        checkIsLoggedIn()
-    },[])
+      function handleBackButtonClick() {
+        setModalVisible(true);
+        return true;
+    }
+
+    // useEffect(()=>{
+    //     checkIsLoggedIn()
+    // },[])
 
     const checkIsLoggedIn = async () => {
-        let isLoggedIn = await AsyncStorage.getItem('loggedIn');
+        let isLoggedIn = await AsyncStorage.getItem('user');
+        console.log(isLoggedIn);
       if(isLoggedIn) {
-        navigation.navigate('Dashboard')
+        navigation.navigate('Dashboard');
+        return false;
+      } else {
+          return true;
       }
     }
 
     const changeInput = (e, name) => {
-        AsyncStorage.setItem('mobile', e)
         seSignInForm(e);
     }
 
 
 
     const submit = async () => {
-        let mobile = await AsyncStorage.getItem('mobile');
-        console.log(mobile)
-        const response = await generateOTP(mobile);
+        if(!signInForm || signInForm == '') {
+            showError('Mobile number is required!');
+            return;
+        }
+        const response = await generateOTP(signInForm);
         console.log(response);
         AsyncStorage.removeItem('mobile')
         if(response.success) {
-            
-            navigation.navigate('Login', {otp: response.Data.otp, number:  mobile});
+            AsyncStorage.setItem('user', JSON.stringify(response.Data))
+            navigation.navigate('Login', {otp: response.Data.otp, number:  signInForm});
             seSignInForm('');
         }
     }
@@ -60,35 +77,54 @@ const Home = ({navigation, generateOTP}) => {
             
             <View style={styles.bottom}>
                     <View style={styles.inputContainer}>
-                        <TextInput change={changeInput} value={signInForm} name="mobile" placeholder="Mobile" />
+                        <TextInput type="numeric" change={changeInput} value={signInForm} name="mobile" placeholder="Mobile" />
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <View style={{flex:1}}></View>
-                        <View style={{flex:1}}>
-                            <TouchableOpacity onPress={()=>submit()} style={{ backgroundColor: 'grey',
-              borderColor: '#C1BCBC',borderTopLeftRadius: 99,borderBottomLeftRadius: 99}}>
-                                <Icon name="arrowright" size={50} style={{marginLeft:10,padding:5}} />
-                            </TouchableOpacity>
-                        {/* <SwipeButton title=""  containerStyles={{backgroundColor:'#C1BCBC',borderTopRightRadius: 0,borderBottomRightRadius: 0}}  railBackgroundColor="#C1BCBC" thumbIconBackgroundColor="#C1BCBC" thumbIconBorderColor="#C1BCBC" thumbIconComponent={thumbIcon} railStyles={{
-              backgroundColor: 'grey',
-              borderColor: 'grey',
-              
-            }} 
-            shouldResetAfterSuccess={true}
-            swipeSuccessThreshold={70}
-            onSwipeSuccess={submit}
-            /> */}
-
-                        </View>
-                    </View>
-                    {/* <View style={styles.buttonContainer}>
+                    <View >
+                        {/* <View style={{flex:1}}></View> */}
+                        <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.button_2} onPress={() => submit()}>
                             <Text style={{padding:15, marginHorizontal:15, color: 'white', }}>
                                 LOGIN
                             </Text>
                         </TouchableOpacity>
-                    </View> */}
+                    </View>
+                    </View>
             </View>
+
+            <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to close this application?</Text>
+
+            <View style={{justifyContent:'center',alignContent:'center',alignItems:'center', display:'flex',flexDirection:'row'}}>
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#4caf50" }}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.textStyle}>No</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#f44336" }}
+              onPress={() => {
+                BackHandler.exitApp();
+              }}
+            >
+              <Text style={styles.textStyle}>Yes</Text>
+            </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
         </ScrollView>
     )
 }
@@ -117,13 +153,51 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         marginTop:30,
-        paddingBottom:30
+        paddingBottom:30,
+        justifyContent:'center'
     },
     button_2: {
-        backgroundColor:'#C1BCBC',
-        borderBottomLeftRadius:30,
-        borderTopLeftRadius:30,
-    }
+        backgroundColor:'#990303',
+        borderRadius:10
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+      },
+      openButton: {
+        backgroundColor: "#F194FF",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        flex:1,
+        margin:10
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      }
  });
  const mapStateToProps = state => ({
 
@@ -131,6 +205,6 @@ const styles = StyleSheet.create({
 
  export default connect(
     mapStateToProps, {
-        generateOTP
+        generateOTP, showError
     }
 ) (Home)

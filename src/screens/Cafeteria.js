@@ -1,9 +1,20 @@
-import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React,{useEffect} from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, BackHandler } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../components/Header';
 
 export default ({navigation}) => {
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
     return (
         <ScrollView style={styles.mainContainer}>
             <Header navigation={navigation} />
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     buttonContainer: {
-        backgroundColor:'#78E20D',
+        backgroundColor:'#4caf50',
         margin:20,
         borderRadius:10,
         justifyContent:'center',

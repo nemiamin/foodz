@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, BackHandler} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
@@ -7,6 +7,18 @@ import { fetchCompanies } from '../action/auth';
 
 const Companies =  ({navigation,fetchCompanies}) => {
     const [companies, setCompanies] = useState([]);
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
 
     useEffect(()=>{
         getComapnies();

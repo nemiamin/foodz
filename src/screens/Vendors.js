@@ -1,15 +1,28 @@
 import React,{useEffect, useState} from 'react';
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { View, StyleSheet, BackHandler, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Header from '../components/Header';
-import {getVendors, storeCafeDensity} from '../action/auth';
+import {getVendors, storeCafeDensity, showError} from '../action/auth';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Vendors = ({navigation, route, getVendors, storeCafeDensity}) => {
+const Vendors = ({navigation, route, getVendors, storeCafeDensity, showError}) => {
     const [vendors, setVendors] = useState([])
     const [density, setDensity] = useState(null);
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
 
     useEffect(()=>{
         console.log(route.params);
@@ -31,8 +44,14 @@ const Vendors = ({navigation, route, getVendors, storeCafeDensity}) => {
     }
 
     const submit = async () => {
+        if(!density || density == '') {
+            showError('Density value is required!');
+            return;
+        }
+const user = await AsyncStorage.getItem('user');
+console.log(JSON.parse(user));
         const response = await storeCafeDensity({
-            dm_id: '1',
+            dm_id: user.d_id,
             org_id: route.params.id,
             density_value: density
         });
@@ -40,8 +59,15 @@ const Vendors = ({navigation, route, getVendors, storeCafeDensity}) => {
             // success
             console.log(response);
             setDensity(null);
-            navigation.navigate('Checklist',{org_id: route.params.id, dm_id: '1'});
+            
         }
+    }
+
+    const redirectToCheck = async (vendor) => {
+        console.log(vendor.split('-'))
+        const user = await AsyncStorage.getItem('user');
+console.log(JSON.parse(user));
+        navigation.navigate('Checklist',{org_id: route.params.id, dm_id: user.d_id,v_id: vendor.split('-')[1]})
     }
     return (
         <ScrollView style={styles.mainContainer}>
@@ -51,11 +77,11 @@ const Vendors = ({navigation, route, getVendors, storeCafeDensity}) => {
                     LIST OF VENDORS
                 </Text>
                 {vendors && vendors.length > 0 && vendors.map((vendor, index) => 
-                <View key={index} style={styles.listContainer}>
+                <TouchableOpacity onPress={()=>redirectToCheck(vendor)} key={index} style={styles.listContainer}>
                     <Text style={styles.listTitle}>
                         {index+1}) {vendor}
                     </Text>
-                </View>)}
+                </TouchableOpacity>)}
 
                 
             </View>
@@ -147,7 +173,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     buttonContainer: {
-        backgroundColor:'#78E20D',
+        backgroundColor:'#4caf50',
         margin:20,
         borderRadius:10,
         justifyContent:'center',
@@ -172,6 +198,6 @@ const styles = StyleSheet.create({
 
 export default connect(
     mapStateToProps, {
-        getVendors, storeCafeDensity
+        getVendors, storeCafeDensity, showError
     }
 ) (Vendors)

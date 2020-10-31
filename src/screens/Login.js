@@ -4,12 +4,22 @@ import { light_white, h, w } from '../assets/commons';
 import Button from '../components/Button';
 import TextInput from '../components/Input';
 import { ScrollView } from 'react-native-gesture-handler';
-import { loginUser } from '../action/auth';
+import { loginUser, showError } from '../action/auth';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({navigation, route, loginUser}) => {
-   
+const Login = ({navigation, route, loginUser, showError}) => {
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () => {
+          backHandler.remove();
+        };
+      }, []);
+
+      function handleBackButtonClick() {
+        navigation.goBack();
+        return true;
+    }
 
     const [loginForm, setLoginForm] = useState({mobile:'', otp:''})
 
@@ -31,6 +41,15 @@ const Login = ({navigation, route, loginUser}) => {
     }
 
     const submit = async () => {
+        if(!loginForm.mobile || loginForm.mobile == '') {
+            showError('Mobile number is required!');
+            return;
+        }
+
+        if(!loginForm.otp || loginForm.otp == '') {
+            showError('OTP is required!');
+            return;
+        }
         console.log(loginForm)
         const response = await loginUser(loginForm);
         if(response.success) {
@@ -107,6 +126,6 @@ const styles = StyleSheet.create({
 
  export default connect(
     mapStateToProps, {
-        loginUser
+        loginUser, showError
     }
 ) (Login)
