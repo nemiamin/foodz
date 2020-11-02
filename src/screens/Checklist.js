@@ -109,10 +109,10 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'average' ? '#4caf50' : '#DAD7D7',}}>
-                    <TouchableOpacity onPress={()=>setHygine('average')} >
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'ok' ? '#4caf50' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setHygine('ok')} >
                         <Text style={{padding:10}}>
-                            Average
+                            OK
                         </Text>
                     </TouchableOpacity>
                     </View>
@@ -143,10 +143,10 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'average' ? '#4caf50' : '#DAD7D7',}}>
-                    <TouchableOpacity onPress={()=>setQuality('average')} >
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'ok' ? '#4caf50' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setQuality('ok')} >
                         <Text style={{padding:10}}>
-                            Average
+                            OK
                         </Text>
                     </TouchableOpacity>
                     </View>
@@ -178,10 +178,10 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                         </Text>
                     </TouchableOpacity>
                     </View>
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'average' ? '#4caf50' : '#DAD7D7',}}>
-                    <TouchableOpacity onPress={()=>setClean('average')} >
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'ok' ? '#4caf50' : '#DAD7D7',}}>
+                    <TouchableOpacity onPress={()=>setClean('ok')} >
                         <Text style={{padding:10}}>
-                            Average
+                            OK
                         </Text>
                     </TouchableOpacity>
                     </View>
@@ -248,7 +248,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                    </Text> */}
 
 <View style={{ flex: 1, marginVertical: 0 }}>
-                 <TextInput value={form.remark} name="remark" onChangeText={(e)=>changeInput(e,'remark')} multiline={true} numberOfLines={3} placeholder='Reason For Cancellation' style={{ backgroundColor: '#F1EFEF', marginHorizontal: 0, textAlign: 'left',  }} />
+                 <TextInput value={form.remark} name="remark" onChangeText={(e)=>changeInput(e,'remark')} multiline={true} numberOfLines={3} style={{ backgroundColor: '#F1EFEF', marginHorizontal: 0, textAlign: 'left',  }} />
              </View>
                </View>
                <TouchableOpacity onPress={()=>submit()} style={styles.buttonContainer}>

@@ -79,7 +79,7 @@ console.log(JSON.parse(user));
                 {vendors && vendors.length > 0 && vendors.map((vendor, index) => 
                 <TouchableOpacity onPress={()=>redirectToCheck(vendor)} key={index} style={styles.listContainer}>
                     <Text style={styles.listTitle}>
-                        {index+1}) {vendor}
+                        {index+1}) {vendor.split('-')[0]}
                     </Text>
                 </TouchableOpacity>)}
 

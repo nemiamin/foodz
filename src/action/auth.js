@@ -308,11 +308,17 @@ export const refillEmployeeAmount = (payload) => async dispatch => {
         console.log('API clled', `http://food.breeur.in/api/wallet_refil_pay.php`)
         const res = await axios.post('http://food.breeur.in/api/wallet_refil_pay.php', payload);
     //   console.log(res.data, 'vendors')
-    dispatch(toast('success', res.data.message));
-     
+    if(res.data.success) {
+        dispatch(toast('success', res.data.message));
         return {
             success: true, data: res.data
         }
+    } else {
+        dispatch(toast('err', res.data.message));
+        return {
+            success: false
+        }
+    }
     } catch (error) {
         // alert(error);
         console.log(error.message);

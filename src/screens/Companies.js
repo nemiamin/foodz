@@ -49,7 +49,7 @@ const Companies =  ({navigation,fetchCompanies}) => {
 {companies.map((company, index) =>
     <TouchableOpacity key={index} style={styles.list} onPress={() => redirectToVendors(company)}>
     <Text style={styles.comapnies}>
-    {index+1}) {company}
+    {index+1}) {company.split('-')[0]}
     </Text>
 </TouchableOpacity>
     )}
