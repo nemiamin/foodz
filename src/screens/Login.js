@@ -62,7 +62,7 @@ const Login = ({navigation, route, loginUser, showError}) => {
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.top}>
-            <ImageBackground style={{ height: h*0.6,width:w}} source={require('../assets/ellipses.png')} >
+            <ImageBackground style={{ height: h*0.6,width:w}} source={require('../assets/ellipse.png')} >
                     <View style={styles.container}>
                         <Image source={require('../assets/logo.png')} />
                     </View>
@@ -75,13 +75,13 @@ const Login = ({navigation, route, loginUser, showError}) => {
                         <TextInput name="mobile" change={changeInput} value={loginForm.mobile}  placeholder="Mobile" />
                         <TextInput name="otp" change={changeInputOtp} value={loginForm.otp} placeholder="OTP" />
                     </View>
-                    <View style={styles.buttonContainer}>
+                    {/* <View style={styles.buttonContainer}> */}
                         <TouchableOpacity style={styles.button_2} onPress={() => submit()}>
                             <Text style={{padding:15, marginHorizontal:15, color: 'white', }}>
                                 LOGIN
                             </Text>
                         </TouchableOpacity>
-                    </View>
+                    {/* </View> */}
             </View>
         </ScrollView>
     )
@@ -89,7 +89,8 @@ const Login = ({navigation, route, loginUser, showError}) => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1
+        flex:1,
+        backgroundColor:'white'
     },
     container: {
         flex: 1,
@@ -100,7 +101,8 @@ const styles = StyleSheet.create({
         flex:1
     },
     bottom: {
-        flex:1
+        flex:1,
+        marginTop: 20
     },
     inputContainer: {
         // flex:1,
@@ -115,8 +117,14 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     button_2: {
-        backgroundColor:'#990303',
-        borderRadius:10
+        backgroundColor:'#FA575A',
+        borderRadius:5,
+        marginLeft:20,
+        marginRight:20,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center',
+        marginTop:30
     }
  });
 

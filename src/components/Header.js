@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         width: 50
     },
     header: {
-        backgroundColor:'#ED2124',
+        backgroundColor:'#FA575A',
         borderBottomEndRadius: 10,
         borderBottomStartRadius:10,
         elevation:2

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, BackHandler} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, BackHandler, Image} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
@@ -49,8 +49,12 @@ const Companies =  ({navigation,fetchCompanies}) => {
 {companies.map((company, index) =>
     <TouchableOpacity key={index} style={styles.list} onPress={() => redirectToVendors(company)}>
     <Text style={styles.comapnies}>
-    {index+1}) {company.split('-')[0]}
+    {company.split('-')[0]}
     </Text>
+    <View style={{justifyContent:'center',alignItems:'center',alignContent:'center'}}>
+    <Image style={{justifyContent:'center',alignItems:'center',alignContent:'center', marginRight:30}} source={require('../assets/end.png')} />
+    </View>
+    
 </TouchableOpacity>
     )}
             </View>
@@ -61,7 +65,8 @@ const Companies =  ({navigation,fetchCompanies}) => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1
+        flex:1,
+        backgroundColor:'#FFFDFD',
     },
     container: {
         flex: 1,
@@ -76,20 +81,25 @@ const styles = StyleSheet.create({
         padding:20
     },
     title: {
-        fontSize: 30,
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom:10
     },
     comapnies: {
         fontSize:22,
         marginHorizontal:15,
-        padding:7
+        padding:7,
+        flex:1
     },
     list: {
-        backgroundColor:'#E4DDDD',
-        borderRadius: 20,
+        backgroundColor:'#ffffff',
+        borderRadius: 3,
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        display:'flex',
+        flexDirection:'row',
+        elevation:10,
+        padding:5
     }
  });
 

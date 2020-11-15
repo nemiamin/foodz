@@ -28,8 +28,8 @@ export default ({navigation}) => {
                 <View style={{justifyContent:'center',
         alignContent:'center',
         alignItems:'center'}}>
-                    <Image source={require('../assets/list.png')} />
-                    <Text style={{color: 'white', fontSize:30, fontWeight:'bold', marginTop:20,}}>List Of Companies</Text>
+                    <Image source={require('../assets/dash2.png')} />
+                    <Text style={{color: '#0F0F0F', fontSize:30, fontWeight:'bold', marginTop:20,}}>List Of Companies</Text>
                 </View>
             </TouchableOpacity>
             
@@ -37,8 +37,8 @@ export default ({navigation}) => {
             <View style={{justifyContent:'center',
         alignContent:'center',
         alignItems:'center'}}>
-                    <Image source={require('../assets/wallet.png')} />
-                    <Text style={{color: 'white', fontSize:30, fontWeight:'bold', marginTop:20}}>Wallet Refill</Text>
+                    <Image source={require('../assets/dash1.png')} />
+                    <Text style={{color: '#0F0F0F', fontSize:30, fontWeight:'bold', marginTop:20}}>Wallet Refill</Text>
                 </View>
             </TouchableOpacity>
 
@@ -81,7 +81,8 @@ export default ({navigation}) => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1
+        flex:1,
+        backgroundColor:'white'
     },
     container: {
         flex: 1,
@@ -90,26 +91,28 @@ const styles = StyleSheet.create({
         padding:20
     },
     top: {
-        backgroundColor:'#ED2124',
+        backgroundColor:'#F3F3F4',
         flex:1,
         justifyContent:'center',
         alignContent:'center',
         alignItems:'center',
         paddingTop: h/12,
         paddingBottom: h/12,
-        margin:30,
-        borderRadius:20
+        margin:25,
+        borderRadius:20,
+        elevation:10
     },
     bottom: {
-        backgroundColor:'#ED2124',
+        backgroundColor:'#F3F3F4',
         flex:1,
         justifyContent:'center',
         alignContent:'center',
         alignItems:'center',
         paddingTop: h/12,
         paddingBottom: h/12,
-        margin:30,
-        borderRadius:20
+        margin:25,
+        borderRadius:20,
+        elevation:10
     },
     inputContainer: {
         // flex:1,

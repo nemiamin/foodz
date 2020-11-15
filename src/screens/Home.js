@@ -68,7 +68,7 @@ const Home = ({navigation, generateOTP, showError}) => {
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.top}>
-            <ImageBackground style={{ height: h*0.7,width:w}} source={require('../assets/ellipses.png')} >
+            <ImageBackground style={{ height: h*0.6,width:w}} source={require('../assets/ellipse.png')} >
                     <View style={styles.container}>
                         <Image source={require('../assets/logo.png')} />
                     </View>
@@ -81,13 +81,13 @@ const Home = ({navigation, generateOTP, showError}) => {
                     </View>
                     <View >
                         {/* <View style={{flex:1}}></View> */}
-                        <View style={styles.buttonContainer}>
+                        {/* <View style={styles.buttonContainer}> */}
                         <TouchableOpacity style={styles.button_2} onPress={() => submit()}>
                             <Text style={{padding:15, marginHorizontal:15, color: 'white', }}>
                                 LOGIN
                             </Text>
                         </TouchableOpacity>
-                    </View>
+                    {/* </View> */}
                     </View>
             </View>
 
@@ -131,7 +131,8 @@ const Home = ({navigation, generateOTP, showError}) => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1
+        flex:1,
+        backgroundColor:'white'
     },
     container: {
         flex: 1,
@@ -142,7 +143,8 @@ const styles = StyleSheet.create({
         flex:1
     },
     bottom: {
-        flex:1
+        flex:1,
+        marginTop:20
     },
     inputContainer: {
         // flex:1,
@@ -157,8 +159,14 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     button_2: {
-        backgroundColor:'#990303',
-        borderRadius:10
+        backgroundColor:'#FA575A',
+        borderRadius:5,
+        marginLeft:20,
+        marginRight:20,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center',
+        marginTop:30
     },
     centeredView: {
         flex: 1,

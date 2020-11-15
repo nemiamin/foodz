@@ -89,19 +89,20 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
         <ScrollView style={styles.mainContainer}>
             <Header navigation={navigation} />
             <View style={styles.card}>
-                <View style={styles.titleContainer}>
+                {/* <View style={styles.titleContainer}> */}
                     <Text style={styles.title}>
-                        OTHER DETAILS
+                        Checklist of duty manager
                     </Text>
-                </View>
-                <View style={styles.listContainer}>
-                    <View style={styles.item_1}>
-                        <Text style={{marginLeft:10}}>
+                {/* </View> */}
+                <View style={styles.item_1}>
+                        <Text style={{marginLeft:10, fontWeight:'bold'}}>
                             Hygiene
                         </Text>
                     </View>
+                <View style={styles.listContainer}>
+                    
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'good' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'good' ? '#F7F4FD' : '#fffff',borderColor:form.hygine == 'good' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setHygine('good')} >
                         <Text style={{padding:10}}>
                             Good
@@ -109,7 +110,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'ok' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'ok' ? '#F7F4FD' : '#fffff',borderColor:form.hygine == 'ok' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setHygine('ok')} >
                         <Text style={{padding:10}}>
                             OK
@@ -117,7 +118,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'bad' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.hygine == 'bad' ? '#F7F4FD' : '#fffff',borderColor:form.hygine == 'bad' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setHygine('bad')} >
                         <Text style={{padding:10}}>
                             Bad
@@ -127,15 +128,15 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
 
                     
                 </View>
-
-                <View style={styles.listContainer}>
-                    <View style={styles.item_1}>
+                <View style={styles.item_1}>
                         <Text style={{marginLeft:10}}>
                             Quality of Food
                         </Text>
                     </View>
+                <View style={styles.listContainer}>
+                    
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'good' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item,  backgroundColor: form.qualityoffood == 'good' ? '#F7F4FD' : '#fffff',borderColor:form.qualityoffood == 'good' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setQuality('good')} >
                         <Text style={{padding:10}}>
                             Good
@@ -143,7 +144,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'ok' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'ok' ? '#F7F4FD' : '#fffff',borderColor:form.qualityoffood == 'ok' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setQuality('ok')} >
                         <Text style={{padding:10}}>
                             OK
@@ -151,7 +152,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'bad' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.qualityoffood == 'bad' ? '#F7F4FD' : '#fffff',borderColor:form.qualityoffood == 'bad' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setQuality('bad')} >
                         <Text style={{padding:10}}>
                             Bad
@@ -163,22 +164,22 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                 </View>
 
 
-
-                <View style={styles.listContainer}>
-                    <View style={styles.item_1}>
+                <View style={styles.item_1}>
                         <Text style={{marginLeft:10}}>
                             Clieanliness of Kitchen
                         </Text>
                     </View>
+                <View style={styles.listContainer}>
+                    
 
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'good' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'good' ? '#F7F4FD' : '#fffff',borderColor:form.cleaness == 'good' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setClean('good')} >
                         <Text style={{padding:10}}>
                             Good
                         </Text>
                     </TouchableOpacity>
                     </View>
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'ok' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'ok' ? '#F7F4FD' : '#fffff',borderColor:form.cleaness == 'ok' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setClean('ok')} >
                         <Text style={{padding:10}}>
                             OK
@@ -186,7 +187,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'bad' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.cleaness == 'bad' ? '#F7F4FD' : '#fffff',borderColor:form.cleaness == 'bad' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setClean('bad')} >
                         <Text style={{padding:10}}>
                             Bad
@@ -197,10 +198,9 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     
                 </View>
 
-                <TextInput2 type="numeric" name="staff_attend" bgColor="white" placeholder="Staff Attendance" inputColor="black" value={form.staff_attend} change={changeInput} />
-
-                <View style={styles.listContainer}>
-                    <View style={{flex:1.3,
+                <TextInput2 type="numeric" name="staff_attend" placeholder="Staff Attendance" inputColor="black" value={form.staff_attend} change={changeInput} />
+                <View style={{flex:1.3,
+                marginTop:20,
         justifyContent:'center',
         backgroundColor:'white',
         borderTopLeftRadius:5,
@@ -209,8 +209,10 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                             Stock
                         </Text>
                     </View>
+                <View style={styles.listContainer}>
+                    
 
-                    <View style={{...styles.green_item, backgroundColor: form.stock == 'maintained' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.stock == 'maintained' ? '#F7F4FD' : '#fffff',borderColor:form.stock == 'maintained' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setStock('maintained')} >
                         <Text style={{padding:10}}>
                             Maintained
@@ -218,7 +220,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                     </TouchableOpacity>
                     </View>
 
-                    <View style={{...styles.green_item, backgroundColor: form.stock == 'not maintained' ? '#4caf50' : '#DAD7D7',}}>
+                    <View style={{...styles.green_item, backgroundColor: form.stock == 'not maintained' ? '#F7F4FD' : '#fffff',borderColor:form.stock == 'not maintained' ? '#FA575A' : '#D7D7D7',}}>
                     <TouchableOpacity onPress={()=>setStock('not maintained')} >
                         <Text style={{padding:10}}>
                             Not Maintained
@@ -230,7 +232,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
             </View>
 
            <View style={{marginHorizontal:10}}>
-                <TextInput2 name="other" bgColor="white" inputColor="black" placeholder="Other" value={form.other} change={changeInput} />
+                <TextInput2 name="other" inputColor="black" placeholder="Other" value={form.other} change={changeInput} />
            </View>
 
            <View style={styles.card_bottom}>
@@ -248,7 +250,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
                    </Text> */}
 
 <View style={{ flex: 1, marginVertical: 0 }}>
-                 <TextInput value={form.remark} name="remark" onChangeText={(e)=>changeInput(e,'remark')} multiline={true} numberOfLines={3} style={{ backgroundColor: '#F1EFEF', marginHorizontal: 0, textAlign: 'left',  }} />
+                 <TextInput value={form.remark} name="remark" onChangeText={(e)=>changeInput(e,'remark')} multiline={true} numberOfLines={3} style={{ backgroundColor: '#F3F3F4', marginHorizontal: 0, textAlign: 'left',  }} />
              </View>
                </View>
                <TouchableOpacity onPress={()=>submit()} style={styles.buttonContainer}>
@@ -263,7 +265,7 @@ const Checklist = ({navigation, cafeteriaRemark, showError,route}) => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex:1,
-        backgroundColor:'#FEF7F7'
+        backgroundColor:'#ffffff'
     },
     button: {
         padding:10,
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
         padding:20
     },
     card: {
-        backgroundColor:'#BEBDBD',
+        backgroundColor:'#ffffff',
         borderRadius: 10,
         margin:10,
         padding:10
@@ -296,9 +298,9 @@ const styles = StyleSheet.create({
         padding:10
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'black',
         padding:5
     },
     titleContainer: {
@@ -318,7 +320,7 @@ const styles = StyleSheet.create({
     listTitle: {
         fontSize:22,
         marginHorizontal:15,
-        padding:7
+        padding:7,
     },
     sensorContainer: {
         flex:1,
@@ -345,8 +347,10 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     buttonContainer: {
-        backgroundColor:'#4caf50',
-        margin:20,
+        backgroundColor:'#FA575A',
+        marginTop:20,
+        marginLeft:10, marginRight:10,
+        marginBottom:20,
         borderRadius:10,
         justifyContent:'center',
         alignContent:'center',
@@ -366,7 +370,9 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         backgroundColor:'white',
         borderTopLeftRadius:5,
-        borderBottomLeftRadius:5
+        borderBottomLeftRadius:5,
+        marginTop:10,
+        
     },
     item: {
         flex:1,
@@ -378,11 +384,10 @@ const styles = StyleSheet.create({
     },
     green_item: {
         flex:1,
-        
-        borderColor:'white',
         borderWidth:1,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        margin:6
     }
  });
 

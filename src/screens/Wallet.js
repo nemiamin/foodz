@@ -74,8 +74,8 @@ const Wallet = ({navigation, fetchEmployeeAmount, showError,refillEmployeeAmount
                 <Text style={styles.title}>
                     Wallet Refill
                 </Text>
-                <TextInput name="email" bgColor="#E4DDDD" inputColor="black" placeholder="Employee ID" value={email} change={changeEmail} />
-                <TouchableHighlight onPress={()=>submit()} style={{backgroundColor:'#4caf50',
+                <TextInput name="email" inputColor="black" placeholder="Employee ID" value={email} change={changeEmail} />
+                <TouchableHighlight onPress={()=>submit()} style={{backgroundColor:'#FA575A',
         marginTop:20,
         marginBottom:20,
         borderRadius:10,
@@ -86,8 +86,8 @@ const Wallet = ({navigation, fetchEmployeeAmount, showError,refillEmployeeAmount
                    Submit
                 </Text>
             </TouchableHighlight>
-                <TextInput disabled={true} value={amount} name="mobile" inputColor="black" bgColor="#E4DDDD" placeholder="Current Balance" />
-                <TextInput name="amount" type="numeric" inputColor="black" bgColor="#E4DDDD" placeholder="Refill Amount" value={refill_amount} change={changeInput} />
+                <TextInput disabled={true} value={amount} name="mobile" inputColor="black" placeholder="Current Balance" />
+                <TextInput name="amount" type="numeric" inputColor="black" placeholder="Refill Amount" value={refill_amount} change={changeInput} />
             </View>
 
             <TouchableHighlight onPress={()=>submitAmount()} style={styles.buttonContainer}>
@@ -102,7 +102,8 @@ const Wallet = ({navigation, fetchEmployeeAmount, showError,refillEmployeeAmount
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1
+        flex:1,
+        backgroundColor:'#FFFDFD',
     },
     container: {
         flex: 1,
@@ -111,18 +112,18 @@ const styles = StyleSheet.create({
         padding:20
     },
     card: {
-        backgroundColor:'#FFFDFD',
+        
         borderRadius: 10,
         margin:10,
         padding:20
     },
     title: {
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom:10
     },
     buttonContainer: {
-        backgroundColor:'#4caf50',
+        backgroundColor:'#FA575A',
         margin:20,
         borderRadius:10,
         justifyContent:'center',

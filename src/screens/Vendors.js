@@ -81,6 +81,9 @@ console.log(JSON.parse(user));
                     <Text style={styles.listTitle}>
                         {index+1}) {vendor.split('-')[0]}
                     </Text>
+                    <View style={{justifyContent:'center',alignItems:'center',alignContent:'center'}}>
+    <Image style={{justifyContent:'center',alignItems:'center',alignContent:'center', marginRight:30}} source={require('../assets/end.png')} />
+    </View>
                 </TouchableOpacity>)}
 
                 
@@ -89,7 +92,7 @@ console.log(JSON.parse(user));
 
             <View style={styles.card}>
                 <View style={styles.sensorContainer}>
-                    <Text style={{fontSize:18, marginBottom:10}}>Sensor Activate</Text>
+                    <Text style={{fontSize:18, marginBottom:10, fontWeight:'bold'}}>Sensor Activate</Text>
                 </View>
 
 
@@ -118,7 +121,8 @@ console.log(JSON.parse(user));
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1
+        flex:1,
+        backgroundColor:'white'
     },
     container: {
         flex: 1,
@@ -130,23 +134,29 @@ const styles = StyleSheet.create({
         backgroundColor:'#FFFDFD',
         borderRadius: 10,
         margin:10,
-        padding:20
+        padding:20,
+        elevation:10
     },
     title: {
-        fontSize: 30,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom:10
+        marginBottom:10,
+        flex:1
     },
     listContainer: {
-        backgroundColor:'#E4DDDD',
+        backgroundColor:'#ffffff',
         borderRadius: 20,
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        display:'flex',
+        flexDirection:'row',
+        elevation:10
     },
     listTitle: {
         fontSize:22,
         marginHorizontal:15,
-        padding:7
+        padding:7,
+        flex:1
     },
     sensorContainer: {
         flex:1,
@@ -156,7 +166,7 @@ const styles = StyleSheet.create({
     },
     CafeContainer: {
         flex:1,
-        alignItems:'center'
+        // alignItems:'center'
     },
     center: {
         alignItems:'center',
@@ -173,12 +183,13 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     buttonContainer: {
-        backgroundColor:'#4caf50',
+        backgroundColor:'#FA575A',
         margin:20,
         borderRadius:10,
         justifyContent:'center',
         alignContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        padding:4
     },
     button: {
         padding:10,

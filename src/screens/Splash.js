@@ -7,7 +7,7 @@ export default () => {
     return (
         <View style={styles.mainContainer}>
                     <View style={styles.container}>
-                        <Image source={require('../assets/logo.png')} />
+                        <Image source={require('../assets/MAIN.png')} />
                     </View>
         </View>
     )
